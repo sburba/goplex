@@ -41,9 +41,9 @@ func TestSignInSuccess(t *testing.T) {
 	expectedReq.SetBasicAuth("username", "password")
 	expectedReq.Header.Add("X-Plex-Client-Identifier", "plextrack")
 
-	client := makeFakeClient(t, http.StatusCreated, resp, expectedReq)
+	client = makeFakeClient(t, http.StatusCreated, resp, expectedReq)
 
-	user, err := getUserWithClient(client, "username", "password")
+	user, err := GetUser("username", "password")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -76,9 +76,9 @@ func TestSignInFail(t *testing.T) {
 	expectedReq.SetBasicAuth("username", "password")
 	expectedReq.Header.Add("X-Plex-Client-Identifier", "plextrack")
 
-	client := makeFakeClient(t, http.StatusUnauthorized, "", expectedReq)
+	client = makeFakeClient(t, http.StatusUnauthorized, "", expectedReq)
 
-	_, err = getUserWithClient(client, "username", "password")
+	_, err = GetUser("username", "password")
 	if err == nil {
 		t.Fatal("Should return error when username and password are wrong")
 	}
@@ -105,9 +105,9 @@ func TestGetDevicesSuccess(t *testing.T) {
 	expectedReq, err := http.NewRequest("GET", "https://plex.tv/devices.xml", nil)
 	expectedReq.Header.Add("X-Plex-Client-Identifier", "plextrack")
 	expectedReq.Header.Add("X-Plex-Token", "authToken")
-	client := makeFakeClient(t, 200, resp, expectedReq)
+	client = makeFakeClient(t, 200, resp, expectedReq)
 
-	result, err := user.getDevicesWithClient(client)
+	result, err := user.GetDevices()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -149,9 +149,9 @@ func TestGetDevicesFail(t *testing.T) {
 	expectedReq.Header.Add("X-Plex-Client-Identifier", "plextrack")
 	expectedReq.Header.Add("X-Plex-Token", "authToken")
 
-	client := makeFakeClient(t, http.StatusUnauthorized, "", expectedReq)
+	client = makeFakeClient(t, http.StatusUnauthorized, "", expectedReq)
 
-	_, err = user.getDevicesWithClient(client)
+	_, err = user.GetDevices()
 	if err == nil {
 		t.Fatal("Should err when server returns 401")
 	}
@@ -178,9 +178,9 @@ func TestGetServersSuccess(t *testing.T) {
 	expectedReq, err := http.NewRequest("GET", "https://plex.tv/devices.xml", nil)
 	expectedReq.Header.Add("X-Plex-Client-Identifier", "plextrack")
 	expectedReq.Header.Add("X-Plex-Token", "authToken")
-	client := makeFakeClient(t, 200, resp, expectedReq)
+	client = makeFakeClient(t, 200, resp, expectedReq)
 
-	result, err := user.getServersWithClient(client)
+	result, err := user.GetServers()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -216,9 +216,9 @@ func TestGetServersFail(t *testing.T) {
 	expectedReq.Header.Add("X-Plex-Client-Identifier", "plextrack")
 	expectedReq.Header.Add("X-Plex-Token", "authToken")
 
-	client := makeFakeClient(t, http.StatusUnauthorized, "", expectedReq)
+	client = makeFakeClient(t, http.StatusUnauthorized, "", expectedReq)
 
-	_, err = user.getDevicesWithClient(client)
+	_, err = user.GetDevices()
 	if err == nil {
 		t.Fatal("Should err when server returns 401")
 	}
@@ -244,7 +244,7 @@ func TestGetSessionsSuccess(t *testing.T) {
 	expectedReq.Header.Add("X-Plex-Client-Identifier", "plextrack")
 	expectedReq.Header.Add("X-Plex-Token", "authToken")
 
-	client := makeFakeClient(t, http.StatusOK, resp, expectedReq)
+	client = makeFakeClient(t, http.StatusOK, resp, expectedReq)
 
 	server := Server{
 		Device{
@@ -253,7 +253,7 @@ func TestGetSessionsSuccess(t *testing.T) {
 		},
 	}
 
-	result, err := server.getSessionsWithClient(client)
+	result, err := server.GetSessions()
 	if err != nil {
 		t.Fatalf("Unexpected error: %s", err)
 	}
@@ -322,7 +322,7 @@ func TestGetSessionsFail(t *testing.T) {
 	expectedReq, err := http.NewRequest("GET", "http://server.com:4040/status/sessions", nil)
 	expectedReq.Header.Add("X-Plex-Client-Identifier", "plextrack")
 	expectedReq.Header.Add("X-Plex-Token", "authToken")
-	client := makeFakeClient(t, http.StatusUnauthorized, "", expectedReq)
+	client = makeFakeClient(t, http.StatusUnauthorized, "", expectedReq)
 
 	server := Server{
 		Device{
@@ -331,7 +331,7 @@ func TestGetSessionsFail(t *testing.T) {
 		},
 	}
 
-	if _, err = server.getSessionsWithClient(client); err == nil {
+	if _, err = server.GetSessions(); err == nil {
 		t.Fatal("GetSessions returned success when it received bad status code")
 	}
 }

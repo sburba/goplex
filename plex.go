@@ -3,7 +3,6 @@ package goplex
 import (
 	"encoding/xml"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -23,11 +22,10 @@ type sessionsResp struct {
 	Videos  []Video  `xml:"Video"`
 }
 
-func GetUser(username, password string) (User, error) {
-	return getUserWithClient(http.DefaultClient, username, password)
-}
+// Hook to override for tests
+var client = http.DefaultClient
 
-func getUserWithClient(client *http.Client, username, password string) (User, error) {
+func GetUser(username, password string) (User, error) {
 	req, err := http.NewRequest("POST", plexTvUrl+"/users/sign_in.xml", nil)
 	if err != nil {
 		return User{}, err
@@ -35,7 +33,7 @@ func getUserWithClient(client *http.Client, username, password string) (User, er
 	req.SetBasicAuth(username, password)
 	req.Header.Add("X-Plex-Client-Identifier", clientIdentifier)
 
-	resp, err := fetchContent(client, req, http.StatusCreated)
+	resp, err := fetchContent(req, http.StatusCreated)
 	if err != nil {
 		return User{}, err
 	}
@@ -50,10 +48,6 @@ func getUserWithClient(client *http.Client, username, password string) (User, er
 }
 
 func (user User) GetDevices() ([]Device, error) {
-	return user.getDevicesWithClient(http.DefaultClient)
-}
-
-func (user User) getDevicesWithClient(client *http.Client) ([]Device, error) {
 	req, err := http.NewRequest("GET", plexTvUrl+"/devices.xml", nil)
 	if err != nil {
 		return nil, err
@@ -61,7 +55,7 @@ func (user User) getDevicesWithClient(client *http.Client) ([]Device, error) {
 	req.Header.Add("X-Plex-Client-Identifier", clientIdentifier)
 	req.Header.Add("X-Plex-Token", user.AuthToken)
 
-	content, err := fetchContent(client, req, http.StatusOK)
+	content, err := fetchContent(req, http.StatusOK)
 
 	resp := &devicesResp{}
 
@@ -78,11 +72,7 @@ func (user User) getDevicesWithClient(client *http.Client) ([]Device, error) {
 }
 
 func (user User) GetServers() ([]Server, error) {
-	return user.getServersWithClient(http.DefaultClient)
-}
-
-func (user User) getServersWithClient(client *http.Client) ([]Server, error) {
-	devices, err := user.getDevicesWithClient(client)
+	devices, err := user.GetDevices()
 	if err != nil {
 		return nil, err
 	}
@@ -99,10 +89,6 @@ func (user User) getServersWithClient(client *http.Client) ([]Server, error) {
 }
 
 func (server Server) GetSessions() ([]Video, error) {
-	return server.getSessionsWithClient(http.DefaultClient)
-}
-
-func (server Server) getSessionsWithClient(client *http.Client) ([]Video, error) {
 	server.PublicAddress.Path = "/status/sessions"
 
 	req, err := http.NewRequest("GET", server.PublicAddress.String(), nil)
@@ -112,12 +98,10 @@ func (server Server) getSessionsWithClient(client *http.Client) ([]Video, error)
 	req.Header.Add("X-Plex-Client-Identifier", clientIdentifier)
 	req.Header.Add("X-Plex-Token", server.Owner.AuthToken)
 
-	resp, err := fetchContent(client, req, http.StatusOK)
+	resp, err := fetchContent(req, http.StatusOK)
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Print(string(resp[:]))
 
 	container := &sessionsResp{}
 	if err := xml.Unmarshal(resp, container); err != nil {
@@ -127,7 +111,7 @@ func (server Server) getSessionsWithClient(client *http.Client) ([]Video, error)
 	return container.Videos, nil
 }
 
-func fetchContent(client *http.Client, req *http.Request, expectedStatusCode int) ([]byte, error) {
+func fetchContent(req *http.Request, expectedStatusCode int) ([]byte, error) {
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
