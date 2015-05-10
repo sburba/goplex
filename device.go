@@ -8,7 +8,7 @@ import (
 
 type Device struct {
 	Name          string              `xml:"name,attr"`
-	PublicAddress HttpUrl             `xml:"publicAddress,attr"`
+	PublicAddress HTTPURL             `xml:"publicAddress,attr"`
 	Product       string              `xml:"product,attr"`
 	Provides      CommaSeperatedSlice `xml:"provides,attr"`
 	Connections   []Connection        `xml:"Connection"`
@@ -16,7 +16,7 @@ type Device struct {
 }
 
 type Connection struct {
-	Address HttpUrl `xml:"uri,attr"`
+	Address HTTPURL `xml:"uri,attr"`
 }
 
 type Server struct {
@@ -46,11 +46,11 @@ func (device Device) toServer() (Server, error) {
 	return server, nil
 }
 
-func findMatchingConnection(address url.URL, connections []Connection) (HttpUrl, error) {
+func findMatchingConnection(address url.URL, connections []Connection) (HTTPURL, error) {
 	for _, connection := range connections {
 		if strings.Contains(connection.Address.Host, address.Host) {
 			return connection.Address, nil
 		}
 	}
-	return HttpUrl{}, fmt.Errorf("No matching connection found for %s in %v", address, connections)
+	return HTTPURL{}, fmt.Errorf("No matching connection found for %s in %v", address, connections)
 }

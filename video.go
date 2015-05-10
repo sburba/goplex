@@ -2,16 +2,16 @@ package goplex
 
 type Video struct {
 	AddedAt          UnixTime       `xml:"addedAt,attr"`
-	Art              UrlPath        `xml:"art,attr"`
+	Art              URLPath        `xml:"art,attr"`
 	ContentRating    string         `xml:"contentRating,attr"`
 	Duration         MillisDuration `xml:"duration,attr"`
-	GrandparentArt   UrlPath        `xml:"grandparentArt,attr"`
-	GrandparentTheme UrlPath        `xml:"grandparentTheme,attr"`
-	GrandparentThumb UrlPath        `xml:"grandparentThumb,attr"`
+	GrandparentArt   URLPath        `xml:"grandparentArt,attr"`
+	GrandparentTheme URLPath        `xml:"grandparentTheme,attr"`
+	GrandparentThumb URLPath        `xml:"grandparentThumb,attr"`
 	GrandparentTitle string         `xml:"grandparentTitle,attr"`
 	GUID             string         `xml:"guid,attr"`
-	ParentThumb      UrlPath        `xml:"parentThumb,attr"`
-	Thumb            UrlPath        `xml:"thumb,attr"`
+	ParentThumb      URLPath        `xml:"parentThumb,attr"`
+	Thumb            URLPath        `xml:"thumb,attr"`
 	Title            string         `xml:"title,attr"`
 	UpdatedAt        UnixTime       `xml:"updatedAt,attr"`
 	Media            Media

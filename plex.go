@@ -8,12 +8,12 @@ import (
 	"strconv"
 )
 
-const plexTvUrl = "https://plex.tv"
+const plexTVURL = "https://plex.tv"
 const clientIdentifier = "plextrack"
 
 type devicesResp struct {
 	XMLName       xml.Name `xml:"MediaContainer"`
-	PublicAddress HttpUrl  `xml:"publicAddress,attr"`
+	PublicAddress HTTPURL  `xml:"publicAddress,attr"`
 	Devices       []Device `xml:"Device"`
 }
 
@@ -26,7 +26,7 @@ type sessionsResp struct {
 var client = http.DefaultClient
 
 func GetUser(username, password string) (User, error) {
-	req, err := http.NewRequest("POST", plexTvUrl+"/users/sign_in.xml", nil)
+	req, err := http.NewRequest("POST", plexTVURL+"/users/sign_in.xml", nil)
 	if err != nil {
 		return User{}, err
 	}
@@ -48,7 +48,7 @@ func GetUser(username, password string) (User, error) {
 }
 
 func (user User) GetDevices() ([]Device, error) {
-	req, err := http.NewRequest("GET", plexTvUrl+"/devices.xml", nil)
+	req, err := http.NewRequest("GET", plexTVURL+"/devices.xml", nil)
 	if err != nil {
 		return nil, err
 	}

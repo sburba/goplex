@@ -2,8 +2,8 @@ package goplex
 
 type User struct {
 	Email        string       `xml:"email,attr"`
-	Id           int          `xml:"id,attr"`
-	Thumb        HttpUrl      `xml:"thumb,attr"`
+	ID           int          `xml:"id,attr"`
+	Thumb        HTTPURL      `xml:"thumb,attr"`
 	Username     string       `xml:"username,attr"`
 	Title        string       `xml:"title,attr"`
 	Locale       string       `xml:"locale,attr"`

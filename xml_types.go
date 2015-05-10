@@ -15,27 +15,27 @@ func (s *CommaSeperatedSlice) UnmarshalXMLAttr(attr xml.Attr) error {
 	return nil
 }
 
-type HttpUrl struct {
+type HTTPURL struct {
 	url.URL
 }
 
-func (u *HttpUrl) UnmarshalXMLAttr(attr xml.Attr) error {
+func (u *HTTPURL) UnmarshalXMLAttr(attr xml.Attr) error {
 	if !strings.HasPrefix(attr.Value, "http://") {
 		attr.Value = "http://" + attr.Value
 	}
 
 	url, err := url.Parse(attr.Value)
-	*u = HttpUrl{*url}
+	*u = HTTPURL{*url}
 	return err
 }
 
-type UrlPath struct {
+type URLPath struct {
 	url.URL
 }
 
-func (p *UrlPath) UnmarshalXMLAttr(attr xml.Attr) error {
+func (p *URLPath) UnmarshalXMLAttr(attr xml.Attr) error {
 	url, err := url.Parse(attr.Value)
-	*p = UrlPath{*url}
+	*p = URLPath{*url}
 	return err
 }
 

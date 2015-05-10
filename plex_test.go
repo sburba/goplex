@@ -50,8 +50,8 @@ func TestSignInSuccess(t *testing.T) {
 
 	expected := User{
 		Email:      "email@address.com",
-		Id:         123456,
-		Thumb:      HttpUrl{url.URL{Scheme: "http", Host: "thumb.com"}},
+		ID:         123456,
+		Thumb:      HTTPURL{url.URL{Scheme: "http", Host: "thumb.com"}},
 		Username:   "username",
 		Title:      "title",
 		Locale:     "locale",
@@ -115,21 +115,21 @@ func TestGetDevicesSuccess(t *testing.T) {
 	expected := []Device{
 		Device{
 			Name:          "My Nexus 5",
-			PublicAddress: HttpUrl{url.URL{Scheme: "http", Host: "24.56.78.91"}},
+			PublicAddress: HTTPURL{url.URL{Scheme: "http", Host: "24.56.78.91"}},
 			Product:       "Plex for Android",
 			Provides:      []string{"controller", "sync-target"},
-			Connections:   []Connection{Connection{HttpUrl{url.URL{Scheme: "http", Host: "192.168.1.1:32400"}}}},
+			Connections:   []Connection{Connection{HTTPURL{url.URL{Scheme: "http", Host: "192.168.1.1:32400"}}}},
 			Owner:         user,
 		},
 		Device{
 			Name:          "Server",
-			PublicAddress: HttpUrl{url.URL{Scheme: "http", Host: "serverPublicAddress.com"}},
+			PublicAddress: HTTPURL{url.URL{Scheme: "http", Host: "serverPublicAddress.com"}},
 			Product:       "Plex Media Server",
 			Provides:      []string{"server"},
 			Connections: []Connection{
-				Connection{HttpUrl{url.URL{Scheme: "http", Host: "serverPublicAddress.com:12345"}}},
-				Connection{HttpUrl{url.URL{Scheme: "http", Host: "192.168.1.2:32400"}}},
-				Connection{HttpUrl{url.URL{Scheme: "http", Host: "192.168.1.2:32400"}}},
+				Connection{HTTPURL{url.URL{Scheme: "http", Host: "serverPublicAddress.com:12345"}}},
+				Connection{HTTPURL{url.URL{Scheme: "http", Host: "192.168.1.2:32400"}}},
+				Connection{HTTPURL{url.URL{Scheme: "http", Host: "192.168.1.2:32400"}}},
 			},
 			Owner: user,
 		},
@@ -189,13 +189,13 @@ func TestGetServersSuccess(t *testing.T) {
 		Server{
 			Device{
 				Name:          "Server",
-				PublicAddress: HttpUrl{url.URL{Scheme: "http", Host: "serverPublicAddress.com:12345"}},
+				PublicAddress: HTTPURL{url.URL{Scheme: "http", Host: "serverPublicAddress.com:12345"}},
 				Product:       "Plex Media Server",
 				Provides:      []string{"server"},
 				Connections: []Connection{
-					Connection{HttpUrl{url.URL{Scheme: "http", Host: "serverPublicAddress.com:12345"}}},
-					Connection{HttpUrl{url.URL{Scheme: "http", Host: "192.168.1.2:32400"}}},
-					Connection{HttpUrl{url.URL{Scheme: "http", Host: "192.168.1.2:32400"}}},
+					Connection{HTTPURL{url.URL{Scheme: "http", Host: "serverPublicAddress.com:12345"}}},
+					Connection{HTTPURL{url.URL{Scheme: "http", Host: "192.168.1.2:32400"}}},
+					Connection{HTTPURL{url.URL{Scheme: "http", Host: "192.168.1.2:32400"}}},
 				},
 				Owner: user,
 			},
@@ -248,7 +248,7 @@ func TestGetActivitySuccess(t *testing.T) {
 
 	server := Server{
 		Device{
-			PublicAddress: HttpUrl{url.URL{Scheme: "http", Host: "server.com:4040"}},
+			PublicAddress: HTTPURL{url.URL{Scheme: "http", Host: "server.com:4040"}},
 			Owner:         User{AuthToken: "authToken"},
 		},
 	}
@@ -261,16 +261,16 @@ func TestGetActivitySuccess(t *testing.T) {
 	expected := []Video{
 		Video{
 			AddedAt:          UnixTime{time.Unix(1430373171, 0)},
-			Art:              UrlPath{url.URL{Path: "/library/metadata/181/art/1430373196"}},
+			Art:              URLPath{url.URL{Path: "/library/metadata/181/art/1430373196"}},
 			ContentRating:    "TV-PG",
 			Duration:         MillisDuration{time.Duration(1297172) * time.Millisecond},
-			GrandparentArt:   UrlPath{url.URL{Path: "/library/metadata/181/art/1430373196"}},
-			GrandparentTheme: UrlPath{url.URL{Path: "/library/metadata/181/theme/1430373196"}},
-			GrandparentThumb: UrlPath{url.URL{Path: "/library/metadata/181/thumb/1430373196"}},
+			GrandparentArt:   URLPath{url.URL{Path: "/library/metadata/181/art/1430373196"}},
+			GrandparentTheme: URLPath{url.URL{Path: "/library/metadata/181/theme/1430373196"}},
+			GrandparentThumb: URLPath{url.URL{Path: "/library/metadata/181/thumb/1430373196"}},
 			GrandparentTitle: "Modern Family",
 			GUID:             "com.plexapp.agents.thetvdb://95011/6/21?lang=en",
-			ParentThumb:      UrlPath{url.URL{Path: "/library/metadata/1117/thumb/1430373196"}},
-			Thumb:            UrlPath{url.URL{Path: "/library/metadata/1751/thumb/1430373196"}},
+			ParentThumb:      URLPath{url.URL{Path: "/library/metadata/1117/thumb/1430373196"}},
+			Thumb:            URLPath{url.URL{Path: "/library/metadata/1751/thumb/1430373196"}},
 			Title:            "Episode 21",
 			UpdatedAt:        UnixTime{time.Unix(1430373196, 0)},
 			Media: Media{
@@ -283,8 +283,8 @@ func TestGetActivitySuccess(t *testing.T) {
 				WidthPx:        1280,
 			},
 			User: User{
-				Id:    1,
-				Thumb: HttpUrl{url.URL{Scheme: "http", Host: "www.thumb.com"}},
+				ID:    1,
+				Thumb: HTTPURL{url.URL{Scheme: "http", Host: "www.thumb.com"}},
 				Title: "title",
 			},
 			Player: Player{
@@ -326,7 +326,7 @@ func TestGetActivityFail(t *testing.T) {
 
 	server := Server{
 		Device{
-			PublicAddress: HttpUrl{url.URL{Scheme: "http", Host: "server.com:4040"}},
+			PublicAddress: HTTPURL{url.URL{Scheme: "http", Host: "server.com:4040"}},
 			Owner:         User{AuthToken: "authToken"},
 		},
 	}
