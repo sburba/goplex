@@ -1,7 +1,6 @@
 package goplex
 
 import (
-	"errors"
 	"fmt"
 	"net/url"
 	"strings"
@@ -35,7 +34,7 @@ func (device *Device) ProvidesFeature(feature string) bool {
 
 func (device Device) toServer() (Server, error) {
 	if !device.ProvidesFeature("server") {
-		return Server{}, errors.New(fmt.Sprintf("Device %s is not a server", device.Name))
+		return Server{}, fmt.Errorf("Device %s is not a server", device.Name)
 	}
 
 	server := Server{device}
@@ -53,5 +52,5 @@ func findMatchingConnection(address url.URL, connections []Connection) (HttpUrl,
 			return connection.Address, nil
 		}
 	}
-	return HttpUrl{}, errors.New(fmt.Sprintf("No matching connection found for %s in %v", address, connections))
+	return HttpUrl{}, fmt.Errorf("No matching connection found for %s in %v", address, connections)
 }
