@@ -8,17 +8,17 @@ import (
 	"testing"
 )
 
-func NewReadCloser(body string) *ReadCloser {
-	return &ReadCloser{
+func newReadCloser(body string) *readCloser {
+	return &readCloser{
 		Reader: strings.NewReader(body),
 	}
 }
 
-type ReadCloser struct {
+type readCloser struct {
 	io.Reader
 }
 
-func (f ReadCloser) Close() error {
+func (f readCloser) Close() error {
 	return nil
 }
 
@@ -39,7 +39,7 @@ func (f fakeRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
 func makeFakeClient(t *testing.T, statusCode int, resp string, expected *http.Request) *http.Client {
 	r := &http.Response{
 		StatusCode: statusCode,
-		Body:       NewReadCloser(resp),
+		Body:       newReadCloser(resp),
 	}
 
 	client := &http.Client{
