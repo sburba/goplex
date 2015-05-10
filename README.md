@@ -26,7 +26,7 @@ plex
 		log.Fatal("Didn't find any servers!")
 	}
 
-	// Get currently watched videos for given server
+	// Get videos being watched on the given server right now
 	videos, err := servers[0].GetActivity()
 	if err != nil {
 		log.Fatal("GetActivity: ", err)
@@ -34,4 +34,4 @@ plex
 	fmt.Printf("%v\n\n", videos)
 
 ## Install
-go get github.com/sburba/plex
+```go get github.com/sburba/plex```
