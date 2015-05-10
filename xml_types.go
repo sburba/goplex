@@ -53,9 +53,7 @@ func (t *UnixTime) UnmarshalXMLAttr(attr xml.Attr) error {
 	return nil
 }
 
-type MillisDuration struct {
-	time.Duration
-}
+type MillisDuration time.Duration
 
 func (dur *MillisDuration) UnmarshalXMLAttr(attr xml.Attr) error {
 	millis, err := strconv.ParseInt(attr.Value, 10, 64)
@@ -63,7 +61,7 @@ func (dur *MillisDuration) UnmarshalXMLAttr(attr xml.Attr) error {
 		return err
 	}
 
-	*dur = MillisDuration{time.Duration(millis) * time.Millisecond}
+	*dur = MillisDuration(time.Duration(millis) * time.Millisecond)
 	return nil
 }
 
