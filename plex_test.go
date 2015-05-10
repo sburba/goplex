@@ -224,7 +224,7 @@ func TestGetServersFail(t *testing.T) {
 	}
 }
 
-func TestGetSessionsSuccess(t *testing.T) {
+func TestGetActivitySuccess(t *testing.T) {
 	resp := `<?xml version="1.0" encoding="UTF-8"?>
 		<MediaContainer size="1">
 		<Video addedAt="1430373171" art="/library/metadata/181/art/1430373196" chapterSource="chapterSource" contentRating="TV-PG" duration="1297172" grandparentArt="/library/metadata/181/art/1430373196" grandparentKey="/library/metadata/181" grandparentRatingKey="181" grandparentTheme="/library/metadata/181/theme/1430373196" grandparentThumb="/library/metadata/181/thumb/1430373196" grandparentTitle="Modern Family" guid="com.plexapp.agents.thetvdb://95011/6/21?lang=en" index="21" key="/library/metadata/1751" librarySectionID="1" parentIndex="6" parentKey="/library/metadata/1117" parentRatingKey="1117" parentThumb="/library/metadata/1117/thumb/1430373196" ratingKey="1751" sessionKey="11" summary="" thumb="/library/metadata/1751/thumb/1430373196" title="Episode 21" type="episode" updatedAt="1430373196">
@@ -253,7 +253,7 @@ func TestGetSessionsSuccess(t *testing.T) {
 		},
 	}
 
-	result, err := server.GetSessions()
+	result, err := server.GetActivity()
 	if err != nil {
 		t.Fatalf("Unexpected error: %s", err)
 	}
@@ -318,7 +318,7 @@ func TestGetSessionsSuccess(t *testing.T) {
 	}
 }
 
-func TestGetSessionsFail(t *testing.T) {
+func TestGetActivityFail(t *testing.T) {
 	expectedReq, err := http.NewRequest("GET", "http://server.com:4040/status/sessions", nil)
 	expectedReq.Header.Add("X-Plex-Client-Identifier", "plextrack")
 	expectedReq.Header.Add("X-Plex-Token", "authToken")
@@ -331,7 +331,7 @@ func TestGetSessionsFail(t *testing.T) {
 		},
 	}
 
-	if _, err = server.GetSessions(); err == nil {
-		t.Fatal("GetSessions returned success when it received bad status code")
+	if _, err = server.GetActivity(); err == nil {
+		t.Fatal("GetActivity returned success when it received bad status code")
 	}
 }

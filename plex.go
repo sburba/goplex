@@ -88,7 +88,7 @@ func (user User) GetServers() ([]Server, error) {
 	return servers, nil
 }
 
-func (server Server) GetSessions() ([]Video, error) {
+func (server Server) GetActivity() ([]Video, error) {
 	server.PublicAddress.Path = "/status/sessions"
 
 	req, err := http.NewRequest("GET", server.PublicAddress.String(), nil)

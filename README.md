@@ -26,12 +26,12 @@ if len(servers) == 0 {
 	log.Fatal("Didn't find any servers!")
 }
 
-// Get sessions for given server
-sessions, err := servers[0].GetSessions()
+// Get currently watched videos for given server
+videos, err := servers[0].GetActivity()
 if err != nil {
-	log.Fatal("GetSessions: ", err)
+	log.Fatal("GetActivity: ", err)
 }
-fmt.Printf("%v\n\n", sessions)
+fmt.Printf("%v\n\n", videos)
 
 ## Install
 go get github.com/sburba/goplex
