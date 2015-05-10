@@ -77,7 +77,7 @@ func (user User) GetServers() ([]Server, error) {
 		return nil, err
 	}
 
-	servers := make([]Server, 0)
+	var servers []Server
 	for _, device := range devices {
 		server, err := device.toServer()
 		if err == nil {
