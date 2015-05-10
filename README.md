@@ -1,16 +1,16 @@
-goplex
+plex
 ===============
 
 (Small subset of the) Plex api for Go
 
 ## Install
 
-```go get github.com/sburba/goplex```
+```go get github.com/sburba/plex```
 
 ## Usage
 
 // Get user information
-user, err := goplex.GetUser(USERNAME, PASSWORD)
+user, err := plex.GetUser(USERNAME, PASSWORD)
 if err != nil {
 	log.Fatal("GetUser: ", err)
 }
@@ -34,4 +34,4 @@ if err != nil {
 fmt.Printf("%v\n\n", videos)
 
 ## Install
-go get github.com/sburba/goplex
+go get github.com/sburba/plex

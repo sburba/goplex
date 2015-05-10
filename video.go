@@ -1,4 +1,4 @@
-package goplex
+package plex
 
 type Video struct {
 	AddedAt          UnixTime       `xml:"addedAt,attr"`

@@ -1,4 +1,4 @@
-package goplex
+package plex
 
 import (
 	"net/http"

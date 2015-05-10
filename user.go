@@ -1,4 +1,4 @@
-package goplex
+package plex
 
 type User struct {
 	Email        string       `xml:"email,attr"`
