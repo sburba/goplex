@@ -2,7 +2,7 @@ package plex
 
 type User struct {
 	Email        string       `xml:"email,attr"`
-	ID           int          `xml:"id,attr"`
+	ID           int64        `xml:"id,attr"`
 	Thumb        HTTPURL      `xml:"thumb,attr"`
 	Username     string       `xml:"username,attr"`
 	Title        string       `xml:"title,attr"`
