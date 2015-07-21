@@ -5,7 +5,7 @@ plex
 
 ## Install
 
-```go get github.com/sburba/plex```
+```go get github.com/sburba/goplex```
 
 ## Usage
 
@@ -32,6 +32,3 @@ plex
 		log.Fatal("GetActivity: ", err)
 	}
 	fmt.Printf("%v\n\n", videos)
-
-## Install
-```go get github.com/sburba/plex```
